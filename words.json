@@ -8,17 +8,17 @@
   },
   "Sofa": {
     "id": 2,
-    "def": "Chair Def",
-    "ant": "chair ant",
-    "syn": "chair syn",
-    "ex": "chair ex"
+    "def": "Sofa Def",
+    "ant": "Sofa ant",
+    "syn": "Sofa syn",
+    "ex": "Sofa ex"
   },
   "Lamp": {
     "id": 3,
-    "def": "Chair Def",
-    "ant": "chair ant",
-    "syn": "chair syn",
-    "ex": "chair ex"
+    "def": "Lamp Def",
+    "ant": "Lamp ant",
+    "syn": "Lamp syn",
+    "ex": "Lamp ex"
   }
 
 }
