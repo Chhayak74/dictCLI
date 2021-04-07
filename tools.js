@@ -1,9 +1,15 @@
+const readline = require('readline');
+// const rlplay = readline.createInterface({
+//   input: process.stdin,
+//   output: process.stdout
+// });
 const wordData = require('./words.json');
-let dataCopy = Object.assign({},wordData);
+
+let dataCopy = Object.assign({}, wordData);
 
 function getRandom(type, obj = dataCopy) {
   let propid;
-  let randObj = Object.assign({},obj);
+  let randObj = Object.assign({}, obj);
   if (type == 'prop') {
     propid = randObj.id;
     delete randObj.id;
@@ -31,8 +37,11 @@ function search(word, detail) {
 }
 
 function printToCli(data) {
-  console.log(data);
+  // console.log(data);
+
 }
+
+
 
 
 module.exports = {
