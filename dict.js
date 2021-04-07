@@ -12,7 +12,7 @@ rl.on('line', (line) => {
   if (line) {
     let dictArgs = line.split(" ");
     if (dictArgs.length == 1) {
-      printToCli(getRandom('prop', getRandom('detail')));
+      printToCli(getRandom('detail'));
     } else if (dictArgs.length == 2) {
       printToCli(search(dictArgs[1]));
     } else if (dictArgs.length == 3) {
