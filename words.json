@@ -1,0 +1,24 @@
+{
+  "Chair": {
+    "id": 1,
+    "def": "Chair Def",
+    "ant": "chair ant",
+    "syn": "chair syn",
+    "ex": "chair ex"
+  },
+  "Sofa": {
+    "id": 2,
+    "def": "Chair Def",
+    "ant": "chair ant",
+    "syn": "chair syn",
+    "ex": "chair ex"
+  },
+  "Lamp": {
+    "id": 3,
+    "def": "Chair Def",
+    "ant": "chair ant",
+    "syn": "chair syn",
+    "ex": "chair ex"
+  }
+
+}
