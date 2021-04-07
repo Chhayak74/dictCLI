@@ -13,7 +13,9 @@ rl.on('line', (line) => {
     let dictArgs = line.split(" ");
     if (dictArgs.length == 1) {
       printToCli(getRandom('detail'));
-    } else if (dictArgs.length == 2) {
+    } else if (dictArgs.length == 2 && dictArgs[1] == 'play') {
+      printToCli(getRandom('prop',Object.assign(getRandom('detail'))));
+    }else if (dictArgs.length == 2) {
       printToCli(search(dictArgs[1]));
     } else if (dictArgs.length == 3) {
       printToCli(search(dictArgs[2], dictArgs[1]))
