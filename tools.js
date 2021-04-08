@@ -12,7 +12,10 @@ function getRandom(type, obj = dataCopy) {
     propid = randObj.id;
     delete randObj.id;
   }
-  let value = randObj[Object.keys(randObj)[Math.floor(Math.random() * Object.keys(randObj).length)]];
+  let value = randObj[Object.keys(randObj)[Math.floor(Math.random() * Object.keys(randObj).length)]]; 
+  if(value.length){
+    value = value[Math.floor(Math.random() * value.length)];
+  }
   return type == 'prop' ? { id: propid, value: value } : value;
 
 }
