@@ -1,10 +1,7 @@
-
-const readline = require('readline');
-// const rlplay = readline.createInterface({
-//   input: process.stdin,
-//   output: process.stdout
-// });
+const cp = require('child_process');
 const wordData = require('./words.json');
+const props = ["id", "syn", "ant", "ex", "def"];
+const words = Object.keys(wordData);
 
 let dataCopy = Object.assign({}, wordData);
 
@@ -20,32 +17,31 @@ function getRandom(type, obj = dataCopy) {
 
 }
 
-//maintain current command status
-function status(pid) {
-  //word,trial,command
-}
-
 //search for word and return the data
 function search(word, detail) {
   let searchedWord = wordData[word];
   if (word && detail) {
-    return searchedWord[detail];
+    return (props.indexOf(detail) > -1 && words.indexOf(word) > -1) ? searchedWord[detail] : undefined;
   } else if (word) {
     return searchedWord;
   } else {
-    return random();
+    return getRandom('detail');
   }
 }
 
 function printToCli(data) {
-  console.log(data);
-  process.exit();
-
+  if (data !== undefined && data.length) {
+    console.log(data.join(","));
+  } else if (data && !data.length) {
+    console.log(data);
+  } else {
+    console.log("No such word/command found");
+  }
 }
 
 
 
 
 module.exports = {
-  getRandom, status, search, printToCli
+  getRandom, search, printToCli
 }
