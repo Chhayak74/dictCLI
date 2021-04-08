@@ -1,3 +1,4 @@
+
 const readline = require('readline');
 // const rlplay = readline.createInterface({
 //   input: process.stdin,
@@ -37,7 +38,8 @@ function search(word, detail) {
 }
 
 function printToCli(data) {
-  // console.log(data);
+  console.log(data);
+  process.exit();
 
 }
 

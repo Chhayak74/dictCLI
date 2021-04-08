@@ -8,61 +8,73 @@ const rl = readline.createInterface({
 });
 
 const wordData = require('./words.json');
+// const { workerData } = require('node:worker_threads');
 
-
+let attempt;
+let pid;
+let wdata;
 rl.on('line', (line) => {
-  if (line) {
+  if (line && line.split(" ")[0].indexOf('./dict') > -1) {
+    attempt = 0;
     let dictArgs = line.split(" ");
-    if (dictArgs.length == 1) {
-      console.log("1");
+    if (dictArgs.length == 1 && process.pid !== pid) {
+      console.log("random");
+      pid = process.pid;
       printToCli(getRandom('detail'));
     } else if (dictArgs.length == 2 && dictArgs[1] == 'play') {
-      console.log("2");
-      playDict(getRandom('prop',Object.assign(getRandom('detail'))));
-    }else if (dictArgs.length == 2) {
-      console.log("3");
+      pid = process.pid;
+      wdata = getRandom('prop', Object.assign(getRandom('detail')));
+      playDict(wdata, attempt);
+    } else if (dictArgs.length == 2 && process.pid !== pid) {
+      console.log("2 args");
+      pid = process.pid;
       printToCli(search(dictArgs[1]));
-    } else if (dictArgs.length == 3) {
-      console.log("4");
+    } else if (dictArgs.length == 3 && process.pid !== pid) {
+      console.log("3 args");
+      pid = process.pid;
       printToCli(search(dictArgs[2], dictArgs[1]))
     }
-  }
-  rl.prompt();
-});
-
-function playDict(data){
-  if (data.id) {
+  }else{
+    rl.prompt();
     rl.on('line', data => {
-      console.log("here")
-      if (checkMatch(data, data.id)) {
-        rl.write("Correct Answer!!");
-      } else {
-        rl.write("Try again...");
-        rl.on('line', data => {
-          if (checkMatch(data, data.id)) {
-            rl.write(`Correct Answer!! \n`);
-          } else {
-            rl.write(`Better luck next time! \n`);
-            process.exit();
-          }
-        })
+      if (checkMatch(data, wdata.id)) {
+        console.log("correct");
+        rl.close();
       }
     })
 
   }
+});
+
+function playDict(wdata, attempt) {
+  if (wdata.id) {
+    rl.write(`${wdata.value} \n`);
+    rl.prompt();
+    rl.on('line', data => {
+      if (attempt == 0) {
+        if (checkMatch(data, wdata.id)) {
+          // rl.write(`Correct Answer!! \n`);
+          rl.close();
+        } else {
+          playDict(wdata, ++attempt);
+        }
+      } else if (attempt == 1) {
+        console.log(`Try again...\n ${attempt}`);
+        ++attempt;
+      } else {
+        console.log("Last trial");
+      }
+    }).on('close', () => {
+      process.exit(0);
+    });
+
+  }
 }
 
-function checkMatch(data, id) {
-  for (word in wordData) {
-    if (word.id == id) {
-      return Object.values(word).indexOf(data) > -1;
-    }
-  }
+function checkMatch(answer, id) {
+  return wordData[answer] ? wordData[answer].id == id: false;
 }
 
 rl.prompt();
 
-rl.on('close', () => {
-  console.log("THE ENd!!");
-});
 
