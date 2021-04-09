@@ -1,0 +1,22 @@
+{
+  "name": "dictcli",
+  "version": "1.0.0",
+  "description": "Dictionary Command Line Tool",
+  "main": "dict.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Chhayak74/dictCLI.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Chhayak74/dictCLI/issues"
+  },
+  "homepage": "https://github.com/Chhayak74/dictCLI#readme",
+  "dependencies": {
+    "chalk": "^4.1.0"
+  }
+}
