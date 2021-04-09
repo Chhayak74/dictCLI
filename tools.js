@@ -59,7 +59,7 @@ function printToCli(data, prop, word) {
       templates('prop_string', data, prop);
     }
     templates('start_end', data, prop);
-  } else if (prop == 'play') {
+  } else if (data && prop == 'play') {
     templates('start_end', data, prop);
     if (typeof (data) == 'object' && !data.length) {
       templates('all', data, prop);
