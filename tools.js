@@ -70,6 +70,10 @@ function printToCli(data, prop, word) {
     //Session terminate case
     templates('close', data, prop);
     templates('start_end', data, prop);
+  } else if (data == 'ex') {
+    templates('start_end');
+    templates('examples');
+    templates('start_end');
   } else {
     //Default - invalid command
     templates('default', data, prop);

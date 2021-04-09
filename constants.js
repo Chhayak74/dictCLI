@@ -1,26 +1,23 @@
 //Module to handle colors in console
 const chalk = require('chalk');
 const wordData = {
-  "Chair": {
+  "Happy": {
     "id": 1,
     "def": "Chair Def",
     "ant": ["nchair1", "nchair2"],
-    "syn": ["chair1", "chair2", "chair3"],
-    "ex": ["chairex1", "chairex2"]
+    "syn": ["Cheerful", "Merry", "Jolly", "Glad", "Pleasant", "Thrilled"]
   },
   "Sofa": {
     "id": 2,
     "def": "Sofa Def",
     "ant": ["nsofa1", "nsofa2", "nsofa3"],
-    "syn": ["sofa1", "sofa2"],
-    "ex": ["sofaex1", "sofaex2"]
+    "syn": ["sofa1", "sofa2"]
   },
   "Lamp": {
     "id": 3,
     "def": "Lamp Def",
     "ant": ["nlamp1", "nlamp2"],
-    "syn": ["lamp1", "lamp2"],
-    "ex": ["lampex1"]
+    "syn": ["lamp1", "lamp2"]
   }
 
 };
@@ -56,6 +53,11 @@ Examples : ${data.ex}`))};`
     case "prop_list": template = `${console.log(chalk.bgBlueBright.white(data.join(",")))};`; return template;
 
     case "prop_string": template = `${console.log(chalk.bgBlueBright.white(data))};`; return template;
+
+    case "examples": template = `${console.log(chalk.bgWhiteBright.black(`************* Examples of valid words in dictionary ***********`))};
+   
+    ${console.log(chalk.bgRgb(41,110,1).white(Object.keys(wordData).join(`\n`)))}`;
+      return template;
 
     case "close": template = `${console.log(`\n---------------------------------------------------------------`)};
     ${console.log(`-********************* ${chalk.bgGray.black("Have a nice day!!")} ********************-`)};`

@@ -20,7 +20,7 @@ rl.on('line', (lineIn) => {
       Handle all valid ./dict commands
       case 1 : ./dict --> Word of the day
       case 2 : ./dict <word> --> All the properties of entered word
-      case 3 : ./dict ex <word> --> Examples of entered word
+      case 3 : ./dict ex --> Examples of valid words in dictionary
       case 4 : ./dict def <word> --> Definition of entered word
       case 5 : ./dict ant <word> --> Antonyms of entered word
       case 6 : ./dict syn <word> --> Synonyms of entered word
@@ -41,11 +41,15 @@ rl.on('line', (lineIn) => {
         }
         playState = true;
       }
-    } else if (dictArgs.length == 2 && !playState) {
+    } else if (dictArgs.length == 2 && !playState && dictArgs[1] != 'ex' ) {
       //case 2
       printToCli(search(dictArgs[1]), 'details', dictArgs[1]);
+    } else if (dictArgs.length == 2 && !playState && dictArgs[1] == 'ex') {
+      //case 3
+
+      printToCli(dictArgs[1]);
     } else if (dictArgs.length == 3 && !playState) {
-      //case 3-6
+      //case 4-6
       printToCli(search(dictArgs[2], dictArgs[1]), dictArgs[1], dictArgs[2]);
     } else {
       //Handling case where user tries other commands while case 7
@@ -74,7 +78,7 @@ rl.on('line', (lineIn) => {
       //Handling seacond wrong attempt
       let wordObj = findInfoById(wdata.id, 'obj');
       printToCli("Here's a hint...", "play");
-      printToCli(getRandom('hint', [...wordObj.ant, ...wordObj.syn, ...wordObj.ex]), 'play');
+      printToCli(getRandom('hint', [...wordObj.ant, ...wordObj.syn]), 'play');
       showhint = false;
     } else {
       //Handling exhausted attempts
