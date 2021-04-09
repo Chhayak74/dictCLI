@@ -43,8 +43,7 @@ function templates(temp_name, data, prop, word) {
     case "all": `${console.log(chalk.bgGrey.white(`Word : ${findInfoById(data.id, 'word')} \n
 Definition : ${data.def} \n
 Synonyms : ${data.syn} \n
-Antonyms : ${data.ant} \n
-Examples : ${data.ex}`))};`
+Antonyms : ${data.ant}`))};`
       return template;
 
     case "propheader": template = `${console.log(chalk.bgGrey.white(`********************** ${propDefinitions[prop]} of ${word}: ********************** \n`))};`
