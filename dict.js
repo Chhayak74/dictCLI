@@ -1,5 +1,6 @@
 //Dependencies and constants
-const { search, getRandom, printToCli , checkMatch, findInfoById} = require('./tools.js');
+const { search, getRandom, printToCli, checkMatch } = require('./tools.js');
+const { findInfoById } = require('./constants');
 const readline = require('readline');
 const rl = readline.createInterface({
   input: process.stdin,
@@ -17,18 +18,21 @@ rl.on('line', (lineIn) => {
   if (isDictCommand) {
     /****************************************************** 
       Handle all valid ./dict commands
-      ./dict --> Word of the day
-      ./dict <word> --> All the properties of entered word
-      ./dict ex <word> --> Examples of entered word
-      ./dict def <word> --> Definition of entered word
-      ./dict ant <word> --> Antonyms of entered word
-      ./dict syn <word> --> Synonyms of entered word
+      case 1 : ./dict --> Word of the day
+      case 2 : ./dict <word> --> All the properties of entered word
+      case 3 : ./dict ex <word> --> Examples of entered word
+      case 4 : ./dict def <word> --> Definition of entered word
+      case 5 : ./dict ant <word> --> Antonyms of entered word
+      case 6 : ./dict syn <word> --> Synonyms of entered word
+      case 7 : ./dict play --> Word guessing game
     *******************************************************/
     let dictArgs = line.split(" ");
     if (dictArgs.length == 1 && !playState) {
+      //case 1
       pid = process.pid;
       printToCli(getRandom('detail'), 'wod');
     } else if (dictArgs.length == 2 && dictArgs[1] == 'play' && !playState) {
+      //case 7
       wdata = getRandom('prop', Object.assign(getRandom('detail')));
       if (wdata.id) {
         if (tryagain) {
@@ -38,11 +42,13 @@ rl.on('line', (lineIn) => {
         playState = true;
       }
     } else if (dictArgs.length == 2 && !playState) {
-
+      //case 2
       printToCli(search(dictArgs[1]), 'details', dictArgs[1]);
     } else if (dictArgs.length == 3 && !playState) {
+      //case 3-6
       printToCli(search(dictArgs[2], dictArgs[1]), dictArgs[1], dictArgs[2]);
     } else {
+      //Handling case where user tries other commands while case 7
       if (playState) {
         console.log(chalk.bgGrey.white("Exiting play mode...Try again!"));
       } else {
@@ -55,19 +61,23 @@ rl.on('line', (lineIn) => {
   } else if (playState) {
     //Once the play command has started
     if (checkMatch(line, wdata.id)) {
+      //Handling correct answer
       printToCli("Sweet!", "play");
       playState = false;
       showhint = false;
     } else if (tryagain) {
+      //Handling first wrong attempt
       tryagain = false;
       printToCli(`Try again...`, "play");
       showhint = true;
     } else if (showhint && !tryagain) {
+      //Handling seacond wrong attempt
       let wordObj = findInfoById(wdata.id, 'obj');
-      printToCli("Here's a hint...","play");
+      printToCli("Here's a hint...", "play");
       printToCli(getRandom('hint', [...wordObj.ant, ...wordObj.syn, ...wordObj.ex]), 'play');
       showhint = false;
     } else {
+      //Handling exhausted attempts
       printToCli("Game over!!", "play");
       printToCli(findInfoById(wdata.id, 'obj'), "play");
       tryagain = true;

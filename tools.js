@@ -1,8 +1,7 @@
-//Module to handle colors in console
-const chalk = require('chalk');
+
 
 //Dataset
-const {wordData, propDefinitions, props} = require('./constants.js');
+const { wordData, propDefinitions, props, templates } = require('./constants.js');
 const words = Object.keys(wordData);
 let dataCopy = Object.assign({}, wordData);
 
@@ -44,45 +43,35 @@ function search(word, detail) {
 function printToCli(data, prop, word) {
 
   if (data && Object.keys(propDefinitions).indexOf(prop) > -1) {
-    console.log("---------------------------------------------------------------");
+    templates('start_end', data, prop);
     if (prop == 'wod' || prop == 'details') {
-      console.log(`****************** ${propDefinitions[prop]} --> ${findInfoById(data.id, 'word')} ******************`);
-      console.log(chalk.bgGrey.white(`Word : ${findInfoById(data.id, 'word')}
-Definition : ${data.def}
-Synonyms : ${data.syn}
-Antonyms : ${data.ant}
-Examples : ${data.ex}
-`));
+      //word of the day / All details
+      templates('allheader', data, prop);
+      templates('all', data, prop);
 
     } else {
-      console.log(chalk.bgGrey.white(`********************** ${propDefinitions[prop]} of ${word}: ********************** \n`));
+      
+      templates('propheader', data, prop, word);
     }
     if (data !== undefined && data.length && typeof (data) == 'object') {
-      console.log(chalk.bgBlueBright.white(data.join(",")));
-    } else if (typeof(data) == 'string') {
-      console.log(chalk.bgBlueBright.white(data));
+      templates('prop_list', data, prop);
+    } else if (typeof (data) == 'string') {
+      templates('prop_string', data, prop);
     }
-    console.log("---------------------------------------------------------------");
+    templates('start_end', data, prop);
   } else if (prop == 'play') {
-    console.log("----------------------------------------------------");
+    templates('start_end', data, prop);
     if (typeof (data) == 'object' && !data.length) {
-      console.log(chalk.bgGrey.white(`Definition : ${data.def}
-Synonyms : ${data.syn}
-Antonyms : ${data.ant}
-Examples : ${data.ex}
-`));
+      templates('all', data, prop);
     } else {
-      console.log(chalk.bgBlue.white(data));
+      templates('prop_string', data, prop);
     }
-    console.log("----------------------------------------------------");
+    templates('start_end', data, prop);
   } else if (prop == 'close') {
-    console.log(`\n----------------------------------------------------`);
-    console.log(`-***************** ${chalk.bgGray.black("Have a nice day!!")} **************-`);
-    console.log("----------------------------------------------------");
+    templates('close', data, prop);
+    templates('start_end', data, prop);
   } else {
-    `${console.log("----------------------------------------------------")};
-    ${console.log(chalk.bgRed.white("No such word/command found"))};
-    ${console.log("----------------------------------------------------")};`
+    templates('default', data, prop);
   }
 }
 //End - Print formatting
@@ -95,17 +84,9 @@ function checkMatch(answer, id) {
 //End - Check match
 
 
-//Find word details by id
-function findInfoById(id, prop) {
-  for (let word in wordData) {
-    if (wordData[word].id == id) {
-      return prop == 'obj' ? wordData[word] : word;
-    }
-  }
-}
-//End - Find word details by id
+
 
 //Export modules
 module.exports = {
-  getRandom, search, printToCli, checkMatch, findInfoById
+  getRandom, search, printToCli, checkMatch
 }
