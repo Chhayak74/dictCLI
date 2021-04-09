@@ -3,21 +3,21 @@ const chalk = require('chalk');
 const wordData = {
   "Happy": {
     "id": 1,
-    "def": "Chair Def",
-    "ant": ["nchair1", "nchair2"],
+    "def": "Happy describes a feeling of joy, delight, or glee. It also describes something that is related to or shows joy. Happy can describe someone being willing to do something or be helpful. Happy is used in many expressions that wish good tidings to another person. Happy has a few other senses as an adjective.",
+    "ant": ["Sad", "Upset", "Unhappy"],
     "syn": ["Cheerful", "Merry", "Jolly", "Glad", "Pleasant", "Thrilled"]
   },
-  "Sofa": {
+  "Beautiful": {
     "id": 2,
-    "def": "Sofa Def",
-    "ant": ["nsofa1", "nsofa2", "nsofa3"],
-    "syn": ["sofa1", "sofa2"]
+    "def": "A person or thing that is beautiful possesses qualities that give great pleasure to see, hear, or think about.",
+    "ant": ["Dull", "Poor", "Ugly", "Rough"],
+    "syn": ["Cute", "Charming", "Elegant", "Pretty"]
   },
-  "Lamp": {
+  "Big": {
     "id": 3,
-    "def": "Lamp Def",
-    "ant": ["nlamp1", "nlamp2"],
-    "syn": ["lamp1", "lamp2"]
+    "def": "Something that is big is large in size, height, width, or amount.",
+    "ant": ["Small", "Little","Minute", "Tiny"],
+    "syn": ["Huge", "Enormous", "Massive","Mammoth", "Large"]
   }
 
 };
@@ -38,12 +38,12 @@ function templates(temp_name, data, prop, word) {
 
   let template;
   switch (temp_name) {
-    case "allheader": template = `${console.log(`****************** ${propDefinitions[prop]} --> ${findInfoById(data.id, 'word')} ******************`)};`;
+    case "allheader": template = `${console.log(`****************** ${propDefinitions[prop]} --> ${findInfoById(data.id, 'word')} ******************`)};\n` ;
       return template;
-    case "all": `${console.log(chalk.bgGrey.white(`Word : ${findInfoById(data.id, 'word')}
-Definition : ${data.def}
-Synonyms : ${data.syn}
-Antonyms : ${data.ant}
+    case "all": `${console.log(chalk.bgGrey.white(`Word : ${findInfoById(data.id, 'word')} \n
+Definition : ${data.def} \n
+Synonyms : ${data.syn} \n
+Antonyms : ${data.ant} \n
 Examples : ${data.ex}`))};`
       return template;
 
