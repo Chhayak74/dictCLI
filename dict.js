@@ -1,4 +1,5 @@
-const { search, getRandom, printToCli , checkMatch, findObjById} = require('./tools.js');
+//Dependencies and constants
+const { search, getRandom, printToCli , checkMatch, findInfoById} = require('./tools.js');
 const readline = require('readline');
 const rl = readline.createInterface({
   input: process.stdin,
@@ -7,13 +8,22 @@ const rl = readline.createInterface({
 });
 const chalk = require('chalk');
 
-const wordData = require('./words.json');
-let wdata;
-let tryagain = true, playState = false, showhint = false;
+//variables for handling play command
+let wdata, tryagain = true, playState = false, showhint = false;
+
 rl.on('line', (lineIn) => {
   let line = lineIn.trim();
   let isDictCommand = line && line.indexOf('./dict') > -1;
   if (isDictCommand) {
+    /****************************************************** 
+      Handle all valid ./dict commands
+      ./dict --> Word of the day
+      ./dict <word> --> All the properties of entered word
+      ./dict ex <word> --> Examples of entered word
+      ./dict def <word> --> Definition of entered word
+      ./dict ant <word> --> Antonyms of entered word
+      ./dict syn <word> --> Synonyms of entered word
+    *******************************************************/
     let dictArgs = line.split(" ");
     if (dictArgs.length == 1 && !playState) {
       pid = process.pid;
@@ -22,7 +32,6 @@ rl.on('line', (lineIn) => {
       wdata = getRandom('prop', Object.assign(getRandom('detail')));
       if (wdata.id) {
         if (tryagain) {
-          // rl.write(`${wdata.value} \n`);
           console.log(chalk.bgBlue.white("Guess the word with below details -"));
           printToCli(wdata.value, 'play')
         }
@@ -44,6 +53,7 @@ rl.on('line', (lineIn) => {
       showhint = false;
     }
   } else if (playState) {
+    //Once the play command has started
     if (checkMatch(line, wdata.id)) {
       printToCli("Sweet!", "play");
       playState = false;
@@ -53,29 +63,29 @@ rl.on('line', (lineIn) => {
       printToCli(`Try again...`, "play");
       showhint = true;
     } else if (showhint && !tryagain) {
-      let wordObj = findObjById(wdata.id, 'obj');
-      console.log(chalk.bgBlue.white("Here's a hint..."));
+      let wordObj = findInfoById(wdata.id, 'obj');
+      printToCli("Here's a hint...","play");
       printToCli(getRandom('hint', [...wordObj.ant, ...wordObj.syn, ...wordObj.ex]), 'play');
       showhint = false;
     } else {
       printToCli("Game over!!", "play");
-      printToCli(findObjById(wdata.id, 'obj'), "play");
+      printToCli(findInfoById(wdata.id, 'obj'), "play");
       tryagain = true;
       playState = false;
       showhint = false;
     }
   } else if (!playState && !isDictCommand) {
+    //Handle invalid commands
     printToCli();
   }
   rl.prompt();
 }).on('close', () => {
+  //Handle CLI Close
   printToCli("Close", 'close');
   process.exit(0);
 });
 
-
-
-
+//Initiate the CLI Prompt
 rl.prompt();
 
 

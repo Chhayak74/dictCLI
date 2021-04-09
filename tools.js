@@ -1,22 +1,14 @@
+//Module to handle colors in console
 const chalk = require('chalk');
-const wordData = require('./words.json');
-const props = ["id", "syn", "ant", "ex", "def"];
+
+//Dataset
+const {wordData, propDefinitions, props} = require('./constants.js');
 const words = Object.keys(wordData);
-
 let dataCopy = Object.assign({}, wordData);
-const propDefinitions = {
-  "ex": "Examples",
-  "def": "Definition",
-  "ant": "Antonyms",
-  "syn": "Synonyms",
-  "wod": "Word Of The Day",
-  "details": "All the properties"
-}
 
+//Get random word details/properties
 function getRandom(type, dataSet = dataCopy) {
-
   if (type == 'hint') {
-
     return dataSet[Math.floor(Math.random() * dataSet.length)];
   } else {
     let propid;
@@ -31,11 +23,10 @@ function getRandom(type, dataSet = dataCopy) {
     }
     return type == 'prop' ? { id: propid, value: value } : value;
   }
-
-
 }
+//End - getRandom
 
-//search for word and return the data
+//Search for word and return the data
 function search(word, detail) {
   let searchedWord = wordData[word];
   if (word && detail) {
@@ -46,14 +37,17 @@ function search(word, detail) {
     return getRandom('detail');
   }
 }
+//End - search
 
+
+//Handle console formatting
 function printToCli(data, prop, word) {
 
   if (data && Object.keys(propDefinitions).indexOf(prop) > -1) {
     console.log("---------------------------------------------------------------");
     if (prop == 'wod' || prop == 'details') {
-      console.log(`****************** ${propDefinitions[prop]} --> ${findObjById(data.id, 'word')} ******************`);
-      console.log(chalk.bgGrey.white(`Word : ${findObjById(data.id, 'word')}
+      console.log(`****************** ${propDefinitions[prop]} --> ${findInfoById(data.id, 'word')} ******************`);
+      console.log(chalk.bgGrey.white(`Word : ${findInfoById(data.id, 'word')}
 Definition : ${data.def}
 Synonyms : ${data.syn}
 Antonyms : ${data.ant}
@@ -91,22 +85,27 @@ Examples : ${data.ex}
     ${console.log("----------------------------------------------------")};`
   }
 }
+//End - Print formatting
 
+
+//Play command - Check if the answer matches the word prompted 
 function checkMatch(answer, id) {
   return wordData[answer] ? wordData[answer].id == id : false;
 }
+//End - Check match
 
-function findObjById(id, prop) {
+
+//Find word details by id
+function findInfoById(id, prop) {
   for (let word in wordData) {
     if (wordData[word].id == id) {
       return prop == 'obj' ? wordData[word] : word;
     }
   }
 }
+//End - Find word details by id
 
-
-
-
+//Export modules
 module.exports = {
-  getRandom, search, printToCli, checkMatch, findObjById
+  getRandom, search, printToCli, checkMatch, findInfoById
 }
