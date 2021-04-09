@@ -1,5 +1,17 @@
 # Dictionary CLI
 
+TOOL START STEPS:
+
+    Pre-requisites:
+    1. Install node, npm
+    
+    Steps:
+    To run this tool, do the following:
+        a. Go to the project root directory.
+        b. Run the following commands respectively in the terminal/command line to run the tool:
+            - npm install
+            - node ./dict
+
 ## Word Definitions
 
 Display definitions of a word. 
