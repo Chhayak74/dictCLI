@@ -1,5 +1,3 @@
-
-
 //Dataset
 const { wordData, propDefinitions, props, templates } = require('./constants.js');
 const words = Object.keys(wordData);
@@ -41,25 +39,26 @@ function search(word, detail) {
 
 //Handle console formatting
 function printToCli(data, prop, word) {
-
   if (data && Object.keys(propDefinitions).indexOf(prop) > -1) {
     templates('start_end', data, prop);
     if (prop == 'wod' || prop == 'details') {
-      //word of the day / All details
+      //Word of the day / All details
       templates('allheader', data, prop);
       templates('all', data, prop);
-
     } else {
-      
+      //Other props case - Header
       templates('propheader', data, prop, word);
     }
     if (data !== undefined && data.length && typeof (data) == 'object') {
+      //multiple outputs/array data
       templates('prop_list', data, prop);
     } else if (typeof (data) == 'string') {
+      //string output data(def)
       templates('prop_string', data, prop);
     }
     templates('start_end', data, prop);
   } else if (data && prop == 'play') {
+    //play command output
     templates('start_end', data, prop);
     if (typeof (data) == 'object' && !data.length) {
       templates('all', data, prop);
@@ -68,9 +67,11 @@ function printToCli(data, prop, word) {
     }
     templates('start_end', data, prop);
   } else if (prop == 'close') {
+    //Session terminate case
     templates('close', data, prop);
     templates('start_end', data, prop);
   } else {
+    //Default - invalid command
     templates('default', data, prop);
   }
 }
