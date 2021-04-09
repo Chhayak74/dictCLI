@@ -69,6 +69,7 @@ rl.on('line', (lineIn) => {
       printToCli("Sweet!", "play");
       playState = false;
       showhint = false;
+      tryagain = true;
     } else if (tryagain) {
       //Handling first wrong attempt
       tryagain = false;
@@ -91,6 +92,8 @@ rl.on('line', (lineIn) => {
   } else if (!playState && !isDictCommand) {
     //Handle invalid commands
     printToCli();
+  }else{
+    console.log(tryagain, playState, showhint, lineIn);
   }
   rl.prompt();
 }).on('close', () => {
